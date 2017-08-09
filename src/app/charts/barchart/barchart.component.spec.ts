@@ -1,17 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BarchartComponent } from './barchart.component';
+import { DataService } from '../../data/data.service';
 
 describe('BarchartComponent', () => {
   let component: BarchartComponent;
   let fixture: ComponentFixture<BarchartComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ BarchartComponent ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        declarations: [BarchartComponent],
+        providers: [DataService]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BarchartComponent);
