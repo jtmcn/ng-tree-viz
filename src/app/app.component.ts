@@ -1,8 +1,8 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
 @Component({
-  selector: "app-root",
-  styleUrls: ["./app.component.scss"],
+  selector: 'app-root',
+  styleUrls: ['./app.component.scss'],
   template: `
     <h1>
       {{title}}
@@ -11,5 +11,5 @@ import { Component } from "@angular/core";
   `
 })
 export class AppComponent {
-  title = "app";
+  title = 'app';
 }
