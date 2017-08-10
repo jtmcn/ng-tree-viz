@@ -27,7 +27,7 @@ describe('AppComponent', () => {
     async(() => {
       const fixture = TestBed.createComponent(AppComponent);
       const app = fixture.debugElement.componentInstance;
-      expect(app.title).toEqual('app');
+      expect(app.title).toEqual('ng-force-viz');
     })
   );
 
