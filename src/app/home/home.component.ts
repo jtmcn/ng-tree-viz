@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
   constructor(private ds: IDataService) {}
 
   ngOnInit() {
-    this.ds.getAll().subscribe(result => {
+    this.ds.getTickerCap().subscribe(result => {
       this.chartData = result;
       console.log(result);
     });
