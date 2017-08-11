@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+// import { DataService } from '../data/data.service';
+import { IDataService } from '../types/data.interface';
 
 @Component({
   selector: 'app-home',
@@ -9,9 +11,14 @@ import { Component, OnInit } from '@angular/core';
   `
 })
 export class HomeComponent implements OnInit {
-  chartData: Array<any> = [0];
+  chartData: Array<any>;
 
-  constructor() {}
+  constructor(private ds: IDataService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.ds.getAll().subscribe(result => {
+      this.chartData = result;
+      console.log(result);
+    });
+  }
 }

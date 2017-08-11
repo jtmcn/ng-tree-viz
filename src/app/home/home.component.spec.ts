@@ -2,7 +2,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomeComponent } from './home.component';
 import { BarchartComponent } from '../charts/barchart/barchart.component';
-import { DataService } from '../data/data.service';
+// import { DataService } from '../data/data.service';
+import { IDataService } from '../types/data.interface';
+import { DataServiceMock } from '../../testing/data.service.mock';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -12,7 +14,7 @@ describe('HomeComponent', () => {
     async(() => {
       TestBed.configureTestingModule({
         declarations: [HomeComponent, BarchartComponent],
-        providers: [DataService]
+        providers: [{ provide: IDataService, useClass: DataServiceMock }]
       }).compileComponents();
     })
   );

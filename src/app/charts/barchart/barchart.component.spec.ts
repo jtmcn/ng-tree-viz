@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BarchartComponent } from './barchart.component';
-import { DataService } from '../../data/data.service';
 
 describe('BarchartComponent', () => {
   let component: BarchartComponent;
@@ -11,7 +10,7 @@ describe('BarchartComponent', () => {
     async(() => {
       TestBed.configureTestingModule({
         declarations: [BarchartComponent],
-        providers: [DataService]
+        providers: []
       }).compileComponents();
     })
   );
@@ -19,6 +18,7 @@ describe('BarchartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BarchartComponent);
     component = fixture.componentInstance;
+    component.data = [];
     fixture.detectChanges();
   });
 

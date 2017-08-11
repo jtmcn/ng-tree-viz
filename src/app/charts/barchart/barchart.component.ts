@@ -1,21 +1,20 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
-import { DataService } from '../../data/data.service';
-
 @Component({
   selector: 'app-barchart',
   styleUrls: ['./barchart.component.scss'],
   encapsulation: ViewEncapsulation.None,
   template: `
     <div class="d3-chart" #chart></div>
-    <h5>hello barchart</h5>
+
+    <ul *ngFor="let const of data">
+      <li>{{ const.Name }}</li>
+    </ul>
   `
 })
 export class BarchartComponent implements OnInit {
-  @Input() private data: Array<any>;
-  constructor(private ds: DataService) {}
+  @Input() data: Array<any> = [];
+  constructor() {}
 
-  ngOnInit() {
-    this.ds.sayHello();
-  }
+  ngOnInit() {}
 }
