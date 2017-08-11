@@ -5,4 +5,8 @@ export class DataServiceMock {
   public getAll(): Observable<Object> {
     return Observable.of([]);
   }
+
+  public getTickerCap(): Observable<Object> {
+    return Observable.of([]);
+  }
 }
