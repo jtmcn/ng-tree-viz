@@ -8,9 +8,10 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 import { BarchartComponent } from './charts/barchart/barchart.component';
 import { DataService } from './data/data.service';
 import { IDataService } from './types/data.interface';
+import { ForceComponent } from './charts/force/force.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, BarchartComponent],
+  declarations: [AppComponent, HomeComponent, BarchartComponent, ForceComponent],
   imports: [BrowserModule, AppRoutingModule, HttpModule],
   providers: [{ provide: IDataService, useClass: DataService }],
   bootstrap: [AppComponent]
