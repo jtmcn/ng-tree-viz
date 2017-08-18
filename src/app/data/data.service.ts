@@ -30,11 +30,8 @@ export class DataService {
   public getTickerCap(): Observable<Object> {
     return this.getAll().map(companies => {
       let tickerCapArr = [];
-
       for (let i in companies) {
-        // console.log(companies[i]);
         tickerCapArr.push([companies[i].Symbol, companies[i]['Market Cap']]);
-        // tickerCapArr.push([companies[i].Price]);
       }
       return tickerCapArr;
     });
@@ -43,9 +40,7 @@ export class DataService {
   public getChartData(): Observable<Object> {
     return this.getAll().map((companies: Company.Details) => {
       let nodes = [];
-
       // let indexCap = 0;
-
       for (let i in companies) {
         nodes.push({
           label: companies[i].Symbol,
@@ -54,13 +49,6 @@ export class DataService {
         });
         // indexCap = indexCap + parseInt(companies[i]['Market Cap']) || 0;
       }
-      // console.log(indexCap);
-      // nodes.push({
-      //   label: 'SNP',
-      //   r: indexCap / 10,
-      //   color: 'black'
-      // });
-
       return nodes;
     });
   }
