@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-// import { DataService } from '../data/data.service';
 import { IDataService } from '../data/data.interface';
 
 import * as Chart from '../types/chart';
@@ -9,11 +8,14 @@ import * as Company from '../types/company';
   selector: 'app-home',
   styleUrls: ['./home.component.scss'],
   template: `
-  <nav class="navbar">
-  <div class="navbar-brand">
-  <h3 class="navbar-item">S&P 500 Market Cap. Distribution</h3>
+  <div class="container"
+    fxLayout="row"
+    fxLayoutAlign="center"
+    fxLayoutGap="20px">
+    <h3 fxFlex="20%">{{appTitle}}</h3>
+    <app-selection fxFlex [selctedCompany]="selectedCompany">
+    </app-selection>
   </div>
-  </nav>
 
   <div class="container"
   fxLayout="column"
@@ -23,21 +25,11 @@ import * as Company from '../types/company';
     </app-force>
   </div>
 
-  <div class="container"
-    fxLayout="column"
-    fxLayoutAlign="center"
-    fxLayoutGap="20px">
-
-    <app-selection fxFlex *ngIf="selectedCompany" [selctedCompany]="selectedCompany">
-    </app-selection>
-  </div>
-
-
-
 
     `
 })
 export class HomeComponent implements OnInit {
+  appTitle = 'Market Cap. Distribution of S&P 500';
   chartData: Array<any>;
   selectedCompany: Company.Details;
 
@@ -45,6 +37,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.ds.getChartData().subscribe(result => (this.chartData = result));
+    // todo: select first node
+    // this.selectedCompany = this.ds.companyByTicker(undefined);
   }
 
   onSelection(node: Chart.Node): void {

@@ -6,34 +6,39 @@ import * as Company from '../types/company';
   selector: 'app-selection',
   styleUrls: ['./selection.component.scss'],
   template: `
-  <div class="box">
-  <nav class="level is-mobile">
-  <div class="level-item has-text-centered">
-    <div>
-      <p class="heading">Company</p>
-      <p class="title">{{ selctedCompany.Name }}</p>
-    </div>
-  </div>
-  <div class="level-item has-text-centered">
   <div>
-    <p class="heading">Symbol</p>
-    <p class="title">{{ selctedCompany.Symbol }}</p>
+    <nav class="level is-mobile">
+      <div class="level-item has-text-centered">
+        <div>
+          <p class="heading is-5">Company</p>
+          <p class="title is-3">{{ selctedCompany.Name }}</p>
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <div>
+          <p class="heading is-5">Symbol</p>
+          <p class="title is-3">{{ selctedCompany.Symbol }}</p>
+        </div>
+      </div>
+      <div class="level-item has-text-centered">
+        <div>
+          <p class="heading is-5">Market Cap</p>
+          <p class="title is-3">{{ selctedCompany['Market Cap'] }} B</p>
+        </div>
+      </div>
+    </nav>
   </div>
-</div>
-<div class="level-item has-text-centered">
-<div>
-  <p class="heading">Market Cap</p>
-  <p class="title">{{ selctedCompany['Market Cap'] }}</p>
-</div>
-</div>
-</nav>
-</div>
   `
 })
 export class SelectionComponent implements OnInit, OnChanges {
   @Input() selctedCompany: Company.Details;
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.selctedCompany = {};
+    this.selctedCompany.Name = '';
+    this.selctedCompany.Symbol = '';
+    this.selctedCompany['Market Cap'] = 0;
+  }
   ngOnChanges() {}
 }
