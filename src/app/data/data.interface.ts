@@ -9,4 +9,5 @@ export abstract class IDataService {
   getTickerCap: () => Observable<any>;
   getChartData: () => Observable<any>;
   companyByTicker: (ticker: string) => Company.Details;
+  nodeColor: (ticker: string) => string;
 }
