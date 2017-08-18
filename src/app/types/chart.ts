@@ -1,4 +1,4 @@
-export type Chart = {
+export type Force = {
   nodes: Node[];
   links: Link[];
 };
@@ -6,6 +6,7 @@ export type Chart = {
 export type Node = {
   label: string;
   r: number;
+  color?: string;
   index?: number;
   x?: number;
   y?: number;
@@ -15,14 +16,4 @@ export type Link = {
   source;
   target;
   index?: number;
-};
-
-export type Point = {
-  index: number;
-  label: string;
-  r: number;
-  vx: number;
-  vy: number;
-  x: number;
-  y: number;
 };
