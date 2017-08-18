@@ -10,11 +10,11 @@ import {
 } from '@angular/core';
 import * as d3 from 'd3';
 
-import * as Chart from '../../types/chart';
+import * as Chart from '../types/chart';
 
 @Component({
   selector: 'app-force',
-  styleUrls: ['./force.component.scss'],
+  styleUrls: ['./force-chart.component.scss'],
   encapsulation: ViewEncapsulation.None,
   template: `
     <div class="box">
@@ -22,7 +22,7 @@ import * as Chart from '../../types/chart';
     </div>
   `
 })
-export class ForceComponent implements OnChanges {
+export class ForceChartComponent implements OnChanges {
   @ViewChild('chart') private chartContainer: ElementRef;
   @Input() data: Array<any>;
   @Output() selectedNode: EventEmitter<any> = new EventEmitter();
