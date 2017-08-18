@@ -72,16 +72,16 @@ export class DataService {
   }
 
   private sectorColors = {
-    Industrials: '#ff6600',
-    'Health Care': '#99ff66',
-    'Information Technology': '#0000e6',
-    'Consumer Discretionary': '#ff33cc',
-    Utilities: '#666633',
-    Financials: '#00ccff',
-    Materials: '#ffcc00',
-    'Consumer Staples': '#660066',
-    'Real Estate': '#006666',
-    Energy: '#663300',
-    'Telecommunications Services': '#ff0000'
+    Industrials: '#1f77b4',
+    'Health Care': '#ff7f0e',
+    'Information Technology': '#2ca02c',
+    'Consumer Discretionary': '#d62728',
+    Utilities: '#9467bd',
+    Financials: '#8c564b',
+    Materials: '#e377c2',
+    'Consumer Staples': '#7f7f7f',
+    'Real Estate': '#bcbd22',
+    Energy: '#17becf',
+    'Telecommunications Services': '#ffff99'
   };
 }
