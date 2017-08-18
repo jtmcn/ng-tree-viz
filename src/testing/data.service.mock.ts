@@ -9,4 +9,8 @@ export class DataServiceMock {
   public getTickerCap(): Observable<Object> {
     return Observable.of([]);
   }
+
+  public getChartData(): Observable<Object> {
+    return Observable.of([]);
+  }
 }
