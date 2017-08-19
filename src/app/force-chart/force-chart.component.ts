@@ -32,6 +32,8 @@ export class ForceChartComponent implements OnChanges {
   private svgHeight: number;
   private chartWidth: number;
   private chartHeight: number;
+  private padding = 1.5; // separation between same-color circles
+  private clusterPadding = 6; // separation between different-color circles
 
   constructor() {}
 
@@ -49,14 +51,12 @@ export class ForceChartComponent implements OnChanges {
     const data = this.builtData();
     const svg = this.drawCanvas();
 
+    const totalClusters = 11; //todo: derive total
+
+    const clusters = new Array(totalClusters);
+
     const simulation: any = d3
       .forceSimulation()
-      .force(
-        'link',
-        d3.forceLink().id(function(d: Chart.Node) {
-          return d.index.toString();
-        })
-      )
       .force(
         'collide',
         d3.forceCollide((d: Chart.Node): number => d.r).iterations(10)
@@ -68,15 +68,6 @@ export class ForceChartComponent implements OnChanges {
       )
       .force('y', d3.forceY(0))
       .force('x', d3.forceX(0));
-
-    const link = svg
-      .append('g')
-      .attr('class', 'links')
-      .selectAll('line')
-      .data(data.links)
-      .enter()
-      .append('line')
-      .attr('stroke', 'gray');
 
     const dragstarted = d => {
       if (!d3.event.active) simulation.alphaTarget(0.3).restart();
@@ -106,20 +97,6 @@ export class ForceChartComponent implements OnChanges {
       );
 
     const ticked = function() {
-      link
-        .attr('x1', function(l: Chart.Link) {
-          return l.source.x;
-        })
-        .attr('y1', function(l: Chart.Link) {
-          return l.source.y;
-        })
-        .attr('x2', function(l: Chart.Link) {
-          return l.target.x;
-        })
-        .attr('y2', function(l: Chart.Link) {
-          return l.target.y;
-        });
-
       node
         .attr('cx', function(n: Chart.Node) {
           return n.x;
@@ -130,8 +107,6 @@ export class ForceChartComponent implements OnChanges {
     };
 
     simulation.nodes(data.nodes).on('tick', ticked);
-
-    simulation.force('link').links(data.links);
 
     function dragged(d) {
       d.fx = d3.event.x;
@@ -148,14 +123,7 @@ export class ForceChartComponent implements OnChanges {
   private builtData(): Chart.Force {
     const max = Math.floor(this.data.length * 0.75);
     return {
-      nodes: this.data,
-      links: d3.range(0, max).map(function(i): Chart.Link {
-        const outLinks = {
-          source: i,
-          target: Math.floor(d3.randomUniform(max / 5)())
-        };
-        return outLinks;
-      })
+      nodes: this.data
     };
   }
 
