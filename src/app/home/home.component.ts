@@ -21,8 +21,8 @@ import * as Company from '../types/company';
   fxLayout="column"
   fxLayoutAlign="center">
     
-  <app-force fxFlex *ngIf="chartData" [data]="chartData" (selectedNode)="onSelection($event)">
-    </app-force>
+  <app-tree-chart fxFlex *ngIf="chartData" [data]="chartData" (selectedNode)="onSelection($event)">
+    </app-tree-chart>
   </div>
 
 
