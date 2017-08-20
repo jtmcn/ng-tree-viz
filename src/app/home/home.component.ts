@@ -30,7 +30,7 @@ import * as Company from '../types/company';
 })
 export class HomeComponent implements OnInit {
   appTitle = 'Market Cap. Distribution of S&P 500';
-  chartData: Array<any>;
+  chartData: Array<Company.Details>;
   selectedCompany: Company.Details;
 
   constructor(private ds: IDataService) {}
@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
     // this.selectedCompany = this.ds.companyByTicker(undefined);
   }
 
-  onSelection(node: Chart.Node): void {
+  onSelection(node: Chart.TreeData): void {
     this.selectedCompany = this.ds.companyByTicker(node.label);
   }
 }

@@ -17,13 +17,13 @@ import * as Company from '../types/company';
       <div class="level-item has-text-centered">
         <div>
           <p class="heading is-5">Symbol</p>
-          <p class="title is-3">{{ selctedCompany.Symbol }}</p>
+          <p class="title is-3">{{ selctedCompany.Ticker }}</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
         <div>
-          <p class="heading is-5">Market Cap</p>
-          <p class="title is-3">{{ selctedCompany['Market Cap'] }} B</p>
+          <p class="heading is-5">Sector</p>
+          <p class="title is-3">{{ selctedCompany.Sector }} B</p>
         </div>
       </div>
     </nav>
@@ -35,10 +35,11 @@ export class SelectionComponent implements OnInit, OnChanges {
   constructor() {}
 
   ngOnInit() {
-    this.selctedCompany = {};
-    this.selctedCompany.Name = '';
-    this.selctedCompany.Symbol = '';
-    this.selctedCompany['Market Cap'] = 0;
+    this.selctedCompany = {
+      Name: '',
+      Ticker: '',
+      Sector: ''
+    };
   }
   ngOnChanges() {}
 }
