@@ -24,7 +24,7 @@ import * as Chart from '../types/chart';
 })
 export class TreeChartComponent implements OnChanges {
   @ViewChild('chart') private chartContainer: ElementRef;
-  @Input() data: Array<any>;
+  @Input() data: Array<Chart.TreeNode>;
   @Output() selectedNode: EventEmitter<any> = new EventEmitter();
 
   private SVGElement: d3.Selection<SVGElement, any, any, any>;
@@ -38,7 +38,7 @@ export class TreeChartComponent implements OnChanges {
     }
   }
 
-  private plotChart() {
+  private plotChart(): void {
     const element = this.chartContainer.nativeElement;
     const svgWidth = element.offsetWidth - this.margin.left - this.margin.right;
     const svgHeight =
@@ -51,17 +51,89 @@ export class TreeChartComponent implements OnChanges {
 
     const tree = this.createTree(chartWidth, chartHeight);
 
-    const treeData = this.transformData();
+    const treeData = this.transformData(this.data);
+
+    const treeNodes = tree(treeData);
+
+    const treeLinks = this.makeLinks(treeNodes, chartGroup);
+
+    const node = this.makeNodes(treeNodes, chartGroup);
+
+    this.appendNodes(node);
   }
 
-  private transformData() {
-    return this.data;
+  private appendNodes(node): void {
+    node.append('circle').attr('r', 10);
+    // adds the text to the node
+    node
+      .append('text')
+      .attr('dy', '.35em')
+      .attr('x', function(d) {
+        return d.children ? -13 : 13;
+      })
+      .style('text-anchor', function(d) {
+        return d.children ? 'end' : 'start';
+      })
+      .text(function(d) {
+        return d.data.name;
+      });
+  }
+
+  private makeNodes(nodes, chartGroup) {
+    return chartGroup
+      .selectAll('.node')
+      .data(nodes.descendants())
+      .enter()
+      .append('g')
+      .attr('class', function(d) {
+        return 'node' + (d.children ? ' node--internal' : ' node--leaf');
+      })
+      .attr('transform', function(d) {
+        return 'translate(' + d.y + ',' + d.x + ')';
+      });
+  }
+
+  private makeLinks(nodes: d3.HierarchyNode<any>, chartGroup) {
+    return chartGroup
+      .selectAll('.link')
+      .data(nodes.descendants().slice(1))
+      .enter()
+      .append('path')
+      .attr('class', 'link')
+      .attr('d', function(d) {
+        return (
+          'M' +
+          d.y +
+          ',' +
+          d.x +
+          'C' +
+          (d.y + d.parent.y) / 2 +
+          ',' +
+          d.x +
+          ' ' +
+          (d.y + d.parent.y) / 2 +
+          ',' +
+          d.parent.x +
+          ' ' +
+          d.parent.y +
+          ',' +
+          d.parent.x
+        );
+      });
+  }
+
+  private transformData(data): d3.HierarchyNode<any> {
+    const flatData = d3
+      .stratify()
+      .id((d: Chart.TreeNode) => d.label)
+      .parentId((d: Chart.TreeNode) => d.parent)(data);
+    return d3.hierarchy(flatData, d => d.children);
   }
 
   private drawCanvas(
     element,
-    svgWidth,
-    svgHeight
+    svgWidth: number,
+    svgHeight: number
   ): d3.Selection<SVGElement, {}, HTMLElement, any> {
     return d3
       .select(element)
@@ -82,7 +154,7 @@ export class TreeChartComponent implements OnChanges {
       );
   }
 
-  private createTree(w, h): d3.TreeLayout<{}> {
+  private createTree(w: number, h: number): d3.TreeLayout<{}> {
     return d3.tree().size([w, h]);
   }
 }
