@@ -34,7 +34,7 @@ import * as Company from '../types/company';
 })
 export class HomeComponent implements OnInit {
   appTitle = 'S&P 100 by Sector';
-  chartData: Array<Company.Details>;
+  chartData: Array<Chart.TreeData>;
   selectedCompany: Company.Details;
 
   constructor(private ds: IDataService) {}

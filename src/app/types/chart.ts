@@ -3,8 +3,9 @@ import * as d3 from 'd3';
 export type TreeData = {
   label?: string;
   value?: number;
+  name?: string;
   parent;
-  data;
+  data?;
   color?: string;
 };
 

@@ -30,7 +30,6 @@ export class DataService {
   public getChartData(): Observable<Chart.TreeData[]> {
     return this.getAll().map((companies: Company.Details[]) => {
       let nodes = [];
-      let indexCap = 0;
       const parentNodeLabel = 'S&P100';
 
       const uniqueSectors = new Set();

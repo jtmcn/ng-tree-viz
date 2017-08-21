@@ -78,7 +78,6 @@ export class TreeChartComponent implements OnChanges {
     const links = tree.descendants().slice(1);
 
     const click = d => {
-      console.log('click', d);
       if (d.children) {
         d._children = d.children;
         d.children = null;
@@ -166,9 +165,7 @@ export class TreeChartComponent implements OnChanges {
     // On exit reduce the opacity of text labels
     nodeExit.select('text').style('fill-opacity', 1e-6);
 
-    // ****************** links section ***************************
-
-    // Update the links...
+    // Update the links
     const link = this.svg
       .selectAll('path.link')
       .data(links, function(d: Chart.TreeNodes) {
@@ -211,7 +208,6 @@ export class TreeChartComponent implements OnChanges {
     });
 
     // Creates a curved (diagonal) path from parent to the child nodes
-
     function diagonal(s, d) {
       const path = `M ${s.y} ${s.x}
         C ${(s.y + d.y) / 2} ${s.x},
@@ -221,7 +217,7 @@ export class TreeChartComponent implements OnChanges {
     }
   }
 
-  private transformData(data): Chart.TreeNodes {
+  private transformData(data: Chart.TreeData[]): Chart.TreeNodes {
     const flatData = d3
       .stratify()
       .id((d: Chart.TreeData) => d.label)
