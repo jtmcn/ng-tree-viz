@@ -8,7 +8,6 @@ import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { DataService } from './data/data.service';
 import { IDataService } from './data/data.interface';
-import { ForceChartComponent } from './force-chart/force-chart.component';
 import { SelectionComponent } from './selection/selection.component';
 import { TreeChartComponent } from './tree-chart/tree-chart.component';
 
@@ -16,7 +15,6 @@ import { TreeChartComponent } from './tree-chart/tree-chart.component';
   declarations: [
     AppComponent,
     HomeComponent,
-    ForceChartComponent,
     SelectionComponent,
     TreeChartComponent
   ],
