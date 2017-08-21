@@ -28,11 +28,12 @@ export class TreeChartComponent implements OnChanges {
   @Output() selectedNode: EventEmitter<any> = new EventEmitter();
 
   private SVGElement: d3.Selection<SVGElement, any, any, any>;
-  private margin: Readonly<any> = { top: 2, bottom: 2, left: 2, right: 2 };
+  private margin: Readonly<any> = { top: 20, bottom: 20, left: 20, right: 20 };
   private duration: Readonly<number> = 750;
 
   private svg: d3.Selection<SVGElement, any, any, any>;
   private tree: d3.TreeLayout<{}>;
+  private element;
   private i = 0;
 
   constructor() {}
@@ -56,6 +57,7 @@ export class TreeChartComponent implements OnChanges {
     this.tree = this.createTree(chartWidth, chartHeight);
 
     const root = this.transformData(this.data);
+    //todo: root.sort()
     root.x0 = chartHeight / 2;
     root.y0 = 0;
     root.children.forEach(collapse);
@@ -71,11 +73,12 @@ export class TreeChartComponent implements OnChanges {
   }
 
   private updateChart(source: Chart.TreeNodes): void {
-    const treeNodes = this.tree(source);
-    const nodes = treeNodes.descendants();
-    const links = treeNodes.descendants().slice(1);
+    const tree = this.tree(source);
+    const nodes = tree.descendants();
+    const links = tree.descendants().slice(1);
 
     const click = d => {
+      console.log('click', d);
       if (d.children) {
         d._children = d.children;
         d.children = null;
@@ -83,12 +86,12 @@ export class TreeChartComponent implements OnChanges {
         d.children = d._children;
         d._children = null;
       }
+      this.selectedNode.emit(d.data.data);
       this.updateChart(source);
     };
 
-    // Normalize for fixed-depth.
     nodes.forEach(function(d) {
-      // d.y = d.depth * 180;
+      d.y = d.depth * 400;
     });
 
     const node = this.svg
@@ -99,35 +102,29 @@ export class TreeChartComponent implements OnChanges {
       .enter()
       .append('g')
       .attr('class', 'node')
-      .attr('transform', function(d) {
-        return 'translate(' + source.y0 + ',' + source.x0 + ')';
-      })
+      .attr(
+        'transform',
+        (d: Chart.TreeNodes) => 'translate(' + source.y0 + ',' + source.x0 + ')'
+      )
       .on('click', click);
 
     // Add Circle for the nodes
-    nodeEnter
-      .append('circle')
-      .attr('class', 'node')
-      .attr('r', 1e-6)
-      .style('fill', function(d: Chart.TreeNodes) {
-        // console.log(d);
-        return d._children ? 'lightsteelblue' : '#fff';
-      });
+    nodeEnter.append('circle').attr('class', 'node').attr('r', 1e-6);
 
     // Add labels for the nodes
     nodeEnter
       .append('text')
       .attr('dy', '.35em')
-      .attr('x', function(d: Chart.TreeNodes) {
-        return d.children || d._children ? -13 : 13;
-      })
-      .attr('text-anchor', function(d: Chart.TreeNodes) {
-        return d.children || d._children ? 'end' : 'start';
-      })
-      .text(function(d: Chart.TreeNodes) {
-        console.log(d);
-        return d.data.data.name;
-      });
+      .attr('x', (d: Chart.TreeNodes) => (d.children || d._children ? -13 : 13))
+      .attr(
+        'text-anchor',
+        (d: Chart.TreeNodes) => (d.children || d._children ? 'end' : 'start')
+      )
+      .classed(
+        'node--internal',
+        (d: Chart.TreeNodes) => (d.children || d._children ? true : false)
+      )
+      .text((d: Chart.TreeNodes) => d.data.data.name);
 
     // UPDATE
     const nodeUpdate = nodeEnter.merge(node);
@@ -136,17 +133,21 @@ export class TreeChartComponent implements OnChanges {
     nodeUpdate
       .transition()
       .duration(this.duration)
-      .attr('transform', function(d) {
-        return 'translate(' + d.y + ',' + d.x + ')';
-      });
+      .attr(
+        'transform',
+        (d: Chart.TreeNodes) => 'translate(' + d.y + ',' + d.x + ')'
+      );
 
     // Update the node attributes and style
     nodeUpdate
       .select('circle.node')
       .attr('r', 10)
-      .style('fill', function(d: Chart.TreeNodes) {
-        return d._children ? 'lightsteelblue' : '#fff';
-      })
+      .style('stroke', (d: Chart.TreeNodes) => d.data.data.color)
+      .style(
+        'fill',
+        (d: Chart.TreeNodes) =>
+          d._children || d.depth === 2 ? d.data.data.color : '#fff'
+      )
       .attr('cursor', 'pointer');
 
     // Remove any exiting nodes
@@ -210,6 +211,7 @@ export class TreeChartComponent implements OnChanges {
     });
 
     // Creates a curved (diagonal) path from parent to the child nodes
+
     function diagonal(s, d) {
       const path = `M ${s.y} ${s.x}
         C ${(s.y + d.y) / 2} ${s.x},
@@ -232,100 +234,21 @@ export class TreeChartComponent implements OnChanges {
     svgWidth: number,
     svgHeight: number
   ): d3.Selection<any, any, any, any> {
-    // ): d3.Selection<SVGElement, {}, HTMLElement, any> {
     return d3
       .select(element)
       .append<SVGElement>('svg')
       .attr('width', svgWidth)
       .attr('height', svgHeight)
       .append('g')
-      .classed('chartLayer', true)
       .attr(
         'transform',
-        'translate(' + [this.margin.left, this.margin.top] + ')'
+        'translate(' + this.margin.left + ',' + this.margin.top + ')'
       );
   }
 
   private createTree(w: number, h: number): d3.TreeLayout<{}> {
-    return d3.tree().size([w, h]);
+    return d3.tree().size([h, w]).separation((a: Chart.TreeNodes, b) => {
+      return a.parent == b.parent ? 1 : 1.2;
+    });
   }
-
-  /////////////////////////////////////////
-
-  /////////////////////////////////////////
-  /////////////////////////////////////////
-
-  /////////////////////////////////////////
-
-  // private appendNodes(node): void {
-  //   node.append('circle').attr('r', 10);
-  //   // adds the text to the node
-  //   node
-  //     .append('text')
-  //     .attr('dy', '.35em')
-  //     .attr('x', function(d) {
-  //       return d.children || d._children ? -13 : 13;
-  //     })
-  //     .style('text-anchor', function(d) {
-  //       return d.children || d._children ? 'end' : 'start';
-  //     })
-  //     .text(function(d) {
-  //       return d.data.label;
-  //     });
-  // }
-
-  // private makeNodes(nodes, chartGroup) {
-  //   return chartGroup
-  //     .selectAll('.node')
-  //     .data(nodes.descendants())
-  //     .enter()
-  //     .append('g')
-  //     .attr('class', function(d) {
-  //       return 'node' + (d.children ? ' node--internal' : ' node--leaf');
-  //     })
-  //     .attr('transform', function(d) {
-  //       return 'translate(' + d.y + ',' + d.x + ')';
-  //     });
-  // }
-
-  // private makeLinks(nodes: d3.HierarchyNode<any>, chartGroup) {
-  //   return chartGroup
-  //     .selectAll('.link')
-  //     .data(nodes.descendants().slice(1))
-  //     .enter()
-  //     .append('path')
-  //     .attr('class', 'link')
-  //     .attr('d', function(d) {
-  //       return (
-  //         'M' +
-  //         d.y +
-  //         ',' +
-  //         d.x +
-  //         'C' +
-  //         (d.y + d.parent.y) / 2 +
-  //         ',' +
-  //         d.x +
-  //         ' ' +
-  //         (d.y + d.parent.y) / 2 +
-  //         ',' +
-  //         d.parent.x +
-  //         ' ' +
-  //         d.parent.y +
-  //         ',' +
-  //         d.parent.x
-  //       );
-  //     });
-  // }
-
-  // private createChartGroup(
-  //   svg
-  // ): d3.Selection<SVGElement, {}, HTMLElement, any> {
-  //   return svg
-  //     .append('g')
-  //     .classed('chartLayer', true)
-  //     .attr(
-  //       'transform',
-  //       'translate(' + [this.margin.left, this.margin.top] + ')'
-  //     );
-  // }
 }
