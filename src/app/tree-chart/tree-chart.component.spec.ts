@@ -1,21 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ForceChartComponent } from './force-chart.component';
+import { TreeChartComponent } from './tree-chart.component';
 
-describe('ForceComponent', () => {
-  let component: ForceChartComponent;
-  let fixture: ComponentFixture<ForceChartComponent>;
+describe('TreeChartComponent', () => {
+  let component: TreeChartComponent;
+  let fixture: ComponentFixture<TreeChartComponent>;
 
   beforeEach(
     async(() => {
       TestBed.configureTestingModule({
-        declarations: [ForceChartComponent]
+        declarations: [TreeChartComponent]
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ForceChartComponent);
+    fixture = TestBed.createComponent(TreeChartComponent);
     component = fixture.componentInstance;
     component.data = [];
     fixture.detectChanges();

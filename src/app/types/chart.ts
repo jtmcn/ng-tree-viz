@@ -1,19 +1,17 @@
-export type Force = {
-  nodes: Node[];
-  links: Link[];
+import * as d3 from 'd3';
+
+export type TreeData = {
+  label?: string;
+  value?: number;
+  parent;
+  data;
+  color?: string;
 };
 
-export type Node = {
-  label: string;
-  r: number;
-  color?: string;
-  index?: number;
+export interface TreeNodes extends d3.HierarchyNode<any> {
+  x0?: number;
+  y0?: number;
   x?: number;
   y?: number;
-};
-
-export type Link = {
-  source;
-  target;
-  index?: number;
-};
+  _children?;
+}

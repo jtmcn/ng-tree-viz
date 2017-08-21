@@ -1,4 +1,4 @@
-export type Details = {
+export type Details500 = {
   Symbol?: string;
   Name?: string;
   Sector?: string;
@@ -14,4 +14,19 @@ export type Details = {
   'Price/Sales'?: number;
   'Price/Book'?: number;
   'SEC Filings'?: string;
+};
+
+export type Details = {
+  Ticker: string;
+  Name: string;
+  'Asset Class'?: string;
+  'Weight (%)'?: number;
+  Price?: number;
+  Shares?: number;
+  'Market Value'?: number;
+  'Notional Value'?: number;
+  Sector: string;
+  SEDOL?: number;
+  ISIN?: string;
+  Exchange?: string;
 };

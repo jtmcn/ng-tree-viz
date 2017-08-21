@@ -17,7 +17,11 @@ describe('SelectionComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SelectionComponent);
     component = fixture.componentInstance;
-    component.selctedCompany = {};
+    component.selctedCompany = {
+      Name: '',
+      Ticker: '',
+      Sector: ''
+    };
     fixture.detectChanges();
   });
 

@@ -7,7 +7,7 @@ import * as Company from '../types/company';
   styleUrls: ['./selection.component.scss'],
   template: `
   <div>
-    <nav class="level is-mobile">
+    <nav class="level is-mobile" *ngIf="selctedCompany">
       <div class="level-item has-text-centered">
         <div>
           <p class="heading is-5">Company</p>
@@ -17,13 +17,13 @@ import * as Company from '../types/company';
       <div class="level-item has-text-centered">
         <div>
           <p class="heading is-5">Symbol</p>
-          <p class="title is-3">{{ selctedCompany.Symbol }}</p>
+          <p class="title is-3">{{ selctedCompany.Ticker }}</p>
         </div>
       </div>
       <div class="level-item has-text-centered">
         <div>
-          <p class="heading is-5">Market Cap</p>
-          <p class="title is-3">{{ selctedCompany['Market Cap'] }} B</p>
+          <p class="heading is-5">Sector</p>
+          <p class="title is-3">{{ selctedCompany.Sector }}</p>
         </div>
       </div>
     </nav>
@@ -34,11 +34,6 @@ export class SelectionComponent implements OnInit, OnChanges {
   @Input() selctedCompany: Company.Details;
   constructor() {}
 
-  ngOnInit() {
-    this.selctedCompany = {};
-    this.selctedCompany.Name = '';
-    this.selctedCompany.Symbol = '';
-    this.selctedCompany['Market Cap'] = 0;
-  }
+  ngOnInit() {}
   ngOnChanges() {}
 }
