@@ -10,21 +10,6 @@ import * as Chart from '../types/chart';
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
-  // const partialData: Chart.TreeData[] = [
-  //   { color: '#000', label: 'S&P100', parent: null },
-  //   {
-  //     color: '#17becf',
-  //     label: 'Information Technology',
-  //     name: 'Information Technology',
-  //     parent: 'S&P100'
-  //   },
-  //   {
-  //     label: 'AAPL',
-  //     name: 'APPLE INC',
-  //     color: '#17becf',
-  //     parent: 'Information Technology'
-  //   }
-  // ];
 
   beforeEach(
     async(() => {
