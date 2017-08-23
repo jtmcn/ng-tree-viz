@@ -58,9 +58,11 @@ export class TreeChartComponent implements OnChanges {
 
     const root = this.transformData(this.data);
     //todo: root.sort()
-    root.x0 = chartHeight / 2;
+    root.x0 = 0;
     root.y0 = 0;
+
     root.children.forEach(collapse);
+
     this.updateChart(root);
 
     function collapse(d: Chart.TreeNodes): void {
@@ -73,6 +75,7 @@ export class TreeChartComponent implements OnChanges {
   }
 
   private updateChart(source: Chart.TreeNodes): void {
+    console.log(source);
     const tree = this.tree(source);
     const nodes = tree.descendants();
     const links = tree.descendants().slice(1);
@@ -154,9 +157,7 @@ export class TreeChartComponent implements OnChanges {
       .exit()
       .transition()
       .duration(this.duration)
-      .attr('transform', function(d) {
-        return 'translate(' + source.y + ',' + source.x + ')';
-      })
+      .attr('transform', d => 'translate(' + source.y + ',' + source.x + ')')
       .remove();
 
     // On exit reduce the node circles size to 0
@@ -243,8 +244,12 @@ export class TreeChartComponent implements OnChanges {
   }
 
   private createTree(w: number, h: number): d3.TreeLayout<{}> {
-    return d3.tree().size([h, w]).separation((a: Chart.TreeNodes, b) => {
-      return a.parent == b.parent ? 1 : 1.2;
-    });
+    return d3
+      .tree()
+      .size([h, w])
+      .separation(
+        (a: Chart.TreeNodes, b: Chart.TreeNodes) =>
+          a.parent === b.parent ? 1 : 1.2
+      );
   }
 }

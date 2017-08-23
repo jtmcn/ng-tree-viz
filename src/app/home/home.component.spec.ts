@@ -23,7 +23,6 @@ describe('HomeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
-    // component.chartData = partialData;
     fixture.detectChanges();
   });
 
